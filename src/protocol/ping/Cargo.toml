@@ -1,0 +1,30 @@
+[package]
+name = "protocol-ping"
+authors = ["Brian Martin <bmartin@twitter.com>"]
+
+version = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+repository = { workspace = true }
+license = { workspace = true }
+
+[[bench]]
+name = "ping"
+path = "benches/ping.rs"
+harness = false
+
+[dependencies]
+common = { path = "../../common" }
+config = { path = "../../config" }
+logger = { path = "../../logger" }
+protocol-common = { path = "../../protocol/common" }
+rustcommon-metrics = { workspace = true }
+storage-types = { path = "../../storage/types" }
+
+[dev-dependencies]
+criterion = "0.3.4"
+
+[features]
+default = []
+client = []
+server = []

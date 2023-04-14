@@ -1,0 +1,29 @@
+[package]
+name = "pingproxy"
+authors = ["Brian Martin <bmartin@twitter.com>"]
+
+version = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+repository = { workspace = true }
+license = { workspace = true }
+
+[lib]
+name = "pingproxy"
+path = "src/lib.rs"
+doc = true
+
+[[bin]]
+name = "pelikan_pingproxy_rs"
+path = "src/main.rs"
+doc = false
+
+[dependencies]
+backtrace = { workspace = true }
+clap = { workspace = true }
+common = { path = "../../common" }
+config = { path = "../../config" }
+logger = { path = "../../logger" }
+proxy = { path = "../../core/proxy" }
+protocol-ping = { path = "../../protocol/ping", features = ["client", "server"] }
+rustcommon-metrics = { workspace = true }

@@ -1,0 +1,21 @@
+[package]
+name = "entrystore"
+description = "a collection of entry storage types for use in Pelikan servers"
+authors = ["Brian Martin <bmartin@twitter.com>"]
+
+version = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+repository = { workspace = true }
+license = { workspace = true }
+
+[features]
+debug = ["seg/debug"]
+
+[dependencies]
+common = { path = "../common" }
+config = { path = "../config" }
+protocol-common = { path = "../protocol/common" }
+protocol-memcache = { path = "../protocol/memcache" }
+protocol-ping = { path = "../protocol/ping" }
+seg = { path = "../storage/seg" }

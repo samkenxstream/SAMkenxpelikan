@@ -1,0 +1,44 @@
+[package]
+name = "pingserver"
+description = "a simple ascii ping/pong server"
+authors = ["Brian Martin <bmartin@twitter.com>"]
+
+version = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+repository = { workspace = true }
+license = { workspace = true }
+
+[lib]
+name = "pelikan_pingserver_rs"
+path = "src/lib.rs"
+doc = true
+
+[[bin]]
+name = "pelikan_pingserver_rs"
+path = "src/main.rs"
+doc = false
+
+[[test]]
+name = "integration"
+path = "tests/integration.rs"
+harness = false
+
+[[bench]]
+name = "benchmark"
+path = "benches/benchmark.rs"
+harness = false
+
+[dependencies]
+backtrace = { workspace = true }
+clap = { workspace = true }
+common = { path = "../../common" }
+config = { path = "../../config" }
+entrystore = { path = "../../entrystore" }
+logger = { path = "../../logger" }
+protocol-ping = { path = "../../protocol/ping", features = ["server"] }
+rustcommon-metrics = { workspace = true }
+server = { path = "../../core/server" }
+
+[dev-dependencies]
+criterion = "0.3"

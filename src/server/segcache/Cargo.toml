@@ -1,0 +1,52 @@
+[package]
+name = "segcache"
+description = "a Memcache protocol server with segment-structured storage"
+authors = ["Brian Martin <bmartin@twitter.com>"]
+
+version = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+repository = { workspace = true }
+license = { workspace = true }
+
+[lib]
+name = "pelikan_segcache_rs"
+path = "src/lib.rs"
+doc = true
+
+[[bin]]
+name = "pelikan_segcache_rs"
+path = "src/main.rs"
+doc = false
+
+[[test]]
+name = "integration"
+path = "tests/integration.rs"
+harness = false
+
+[[test]]
+name = "integration_multi"
+path = "tests/integration_multi.rs"
+harness = false
+
+[[bench]]
+name = "benchmark"
+path = "benches/benchmark.rs"
+harness = false
+
+[features]
+debug = ["entrystore/debug"]
+
+[dependencies]
+backtrace = { workspace = true }
+clap = { workspace = true }
+common = { path = "../../common" }
+config = { path = "../../config" }
+entrystore = { path = "../../entrystore" }
+logger = { path = "../../logger" }
+protocol-memcache = { path = "../../protocol/memcache" }
+rustcommon-metrics = { workspace = true }
+server = { path = "../../core/server" }
+
+[dev-dependencies]
+criterion = "0.3"

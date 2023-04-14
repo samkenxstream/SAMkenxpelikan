@@ -12,7 +12,7 @@ jobs:
   build:
     strategy:
       matrix:
-        os: [ ubuntu-18.04, macos-10.15 ]
+        os: [ ubuntu-latest, macos-12 ]
         profile: [ release, debug ]
     name: build-${{ matrix.os }}-${{ matrix.profile }}
     runs-on: ${{ matrix.os }}
@@ -54,7 +54,7 @@ jobs:
   bench-check:
     strategy:
       matrix:
-        os: [ ubuntu-18.04, macos-10.15 ]
+        os: [ ubuntu-latest, macos-12 ]
     name: build-${{ matrix.os }}-bench
     runs-on: ${{ matrix.os }}
     steps:
@@ -85,7 +85,7 @@ jobs:
   check:
     strategy:
       matrix:
-        os: [ ubuntu-20.04, macos-10.15 ]
+        os: [ ubuntu-latest, macos-12 ]
     name: check-${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     steps:
@@ -138,3 +138,130 @@ jobs:
         run: |
           cargo install cargo-audit
           cargo audit
+
+  smoketest-pingserver:
+    name: smoketest-pingserver
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: pelikan
+      - name: Build Cache for Pelikan
+        uses: Swatinem/rust-cache@v1
+        with:
+          key: pelikan
+          working-directory: pelikan
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: ./pelikan/.github/actions/ca
+      - uses: ./pelikan/.github/actions/pingserver
+        with:
+          tls: false
+      - uses: ./pelikan/.github/actions/rpc-perf
+        with:
+          protocol: ping
+          port: 12321
+          tls: false
+
+  smoketest-pingserver-tls:
+    name: smoketest-pingserver-tls
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: pelikan
+      - name: Build Cache for Pelikan
+        uses: Swatinem/rust-cache@v1
+        with:
+          key: pelikan
+          working-directory: pelikan
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: ./pelikan/.github/actions/ca
+      - uses: ./pelikan/.github/actions/pingserver
+        with:
+          tls: true
+      - uses: ./pelikan/.github/actions/rpc-perf
+        with:
+          protocol: ping
+          port: 12321
+          tls: true
+
+  smoketest-pingproxy:
+    name: smoketest-pingproxy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: pelikan
+      - name: Build Cache for Pelikan
+        uses: Swatinem/rust-cache@v1
+        with:
+          key: pelikan
+          working-directory: pelikan
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: ./pelikan/.github/actions/ca
+      - uses: ./pelikan/.github/actions/pingserver
+        with:
+          tls: false
+      - uses: ./pelikan/.github/actions/pingproxy
+        with:
+          tls: false
+      - uses: ./pelikan/.github/actions/rpc-perf
+        with:
+          protocol: ping
+          port: 12322
+          tls: false
+
+  smoketest-pingproxy-tls-terminating:
+    name: smoketest-pingproxy-tls-terminating
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: pelikan
+      - name: Build Cache for Pelikan
+        uses: Swatinem/rust-cache@v1
+        with:
+          key: pelikan
+          working-directory: pelikan
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: ./pelikan/.github/actions/ca
+      - uses: ./pelikan/.github/actions/pingserver
+        with:
+          tls: false
+      - uses: ./pelikan/.github/actions/pingproxy
+        with:
+          tls: true
+      - uses: ./pelikan/.github/actions/rpc-perf
+        with:
+          protocol: ping
+          port: 12322
+          tls: true
+
+  smoketest-exposition:
+    name: smoketest-exposition
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          path: pelikan
+      - name: Build Cache for Pelikan
+        uses: Swatinem/rust-cache@v1
+        with:
+          key: pelikan
+          working-directory: pelikan
+      - uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+      - uses: ./pelikan/.github/actions/pingserver
+        with:
+          tls: false   
+      - name: Validate
+        run: sleep 60 && curl -s http://localhost:9998/vars.json | jq '.' > /dev/null

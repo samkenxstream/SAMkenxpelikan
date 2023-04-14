@@ -1,0 +1,17 @@
+[package]
+name = "session"
+authors = ["Brian Martin <bmartin@twitter.com>"]
+
+version = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+repository = { workspace = true }
+license = { workspace = true }
+
+[dependencies]
+bytes = { workspace = true }
+log = { workspace = true }
+net = { path = "../net" }
+protocol-common = { path = "../protocol/common" }
+rustcommon-metrics = { workspace = true }
+rustcommon-time = { workspace = true }

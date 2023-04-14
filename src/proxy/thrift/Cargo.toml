@@ -1,0 +1,29 @@
+[package]
+name = "thriftproxy"
+authors = ["Brian Martin <bmartin@twitter.com>"]
+
+version = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+repository = { workspace = true }
+license = { workspace = true }
+
+[lib]
+name = "thriftproxy"
+path = "src/lib.rs"
+doc = true
+
+[[bin]]
+name = "pelikan_thriftproxy_rs"
+path = "src/main.rs"
+doc = false
+
+[dependencies]
+backtrace = { workspace = true }
+clap = { workspace = true }
+common = { path = "../../common" }
+config = { path = "../../config" }
+logger = { path = "../../logger" }
+proxy = { path = "../../core/proxy" }
+protocol-thrift = { path = "../../protocol/thrift" }
+rustcommon-metrics = { workspace = true }

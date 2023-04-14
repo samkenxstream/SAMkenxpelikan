@@ -1,0 +1,27 @@
+[package]
+name = "momento_proxy"
+description = "a proxy to access Momento cache(s) over memcache protocol"
+authors = ["Brian Martin <brayniac@gmail.com>"]
+
+version = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+repository = { workspace = true }
+license = { workspace = true }
+
+[dependencies]
+backtrace = { workspace = true }
+clap = { workspace = true }
+common = { path = "../../common" }
+config = { path = "../../config" }
+libc = { workspace = true }
+logger = { path = "../../logger" }
+momento = "0.3.1"
+net = { path = "../../net" }
+protocol-admin = { path = "../../protocol/admin" }
+protocol-memcache = { path = "../../protocol/memcache" }
+protocol-resp = { path = "../../protocol/resp" }
+rustcommon-metrics = { workspace = true }
+session = { path = "../../session" }
+storage-types = { path = "../../storage/types" }
+tokio = { version = "1.17.0", features = ["full"] }

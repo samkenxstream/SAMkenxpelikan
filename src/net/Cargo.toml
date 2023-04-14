@@ -1,0 +1,18 @@
+[package]
+name = "net"
+description = "Networking abstractions for non-blocking event loops"
+authors = ["Brian Martin <bmartin@twitter.com>"]
+
+version = { workspace = true }
+edition = { workspace = true }
+homepage = { workspace = true }
+repository = { workspace = true }
+license = { workspace = true }
+
+[dependencies]
+boring = { workspace = true }
+boring-sys = { workspace = true }
+foreign-types-shared = { workspace = true }
+libc = { workspace = true }
+mio = { workspace = true, features = ["os-poll", "net"] }
+rustcommon-metrics = { workspace = true }
